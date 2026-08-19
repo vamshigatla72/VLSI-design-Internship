@@ -1,0 +1,35 @@
+module tb_jk_flipflop;
+    reg clk;
+    reg J;
+    reg K;
+    wire Q;
+
+    jk_flipflop uut (
+        .clk(clk),
+        .J(J),
+        .K(K),
+        .Q(Q)
+    );
+
+    // Clock Generation
+    always #5 clk = ~clk;
+
+    initial begin
+        // GTKWave Configuration
+        $dumpfile("dump.vcd");
+        $dumpvars(0, tb_jk_flipflop);
+
+        // Initialize inputs
+        clk = 0;
+        J = 0;
+        K = 0;
+
+        // Stimulus (Testing all states)
+        #10 J = 1; K = 0; // Set
+        #10 J = 0; K = 0; // Hold
+        #10 J = 0; K = 1; // Reset
+        #10 J = 1; K = 1; // Toggle
+        #20 J = 0; K = 0; // Hold toggled state
+        #10 $finish;
+    end
+endmodule
