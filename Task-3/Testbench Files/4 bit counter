@@ -1,0 +1,25 @@
+module tb_counter4;
+    reg clk;
+    wire [3:0] count;
+
+    // Instantiate Unit Under Test
+    counter4 uut (
+        .clk(clk),
+        .count(count)
+    );
+
+    // Clock Generation
+    always #5 clk = ~clk;
+
+    initial begin
+        // GTKWave Configuration
+        $dumpfile("dump.vcd");
+        $dumpvars(0, tb_counter4);
+
+        // Initialize clock
+        clk = 0;
+
+        // Let it run for multiple cycles to watch it increment
+        #170 $finish;
+    end
+endmodule
